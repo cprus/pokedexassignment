@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Pokémon Pokédex</title>
+    <script src= 'http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js'></script>
+    <script type = "text/javascript">
+      $(document).ready(function() {
+
+        for (var i = 1; i < 152; i++) {
+            $('#pokemon').append(`<img src="https://pokeapi.co/media/img/${i}.png" id="${i}">`);
+
+          };
+      });
+
+      $(document).on('click', 'img',function() {
+        var id = this.id;
+        $.get('http://pokeapi.co/api/v1/pokemon/' + id, function(res){
+
+            var pokestring = "";
+              pokestring += "<h4>Name: " + res['name'] + "</h4>";
+              pokestring += `<div id="img"><img src="https://pokeapi.co/media/img/${id}.png" id="${id}"></div>`;
+              pokestring += "<h5>Types: </h5>";
+              pokestring += "<ul>";
+              for (var j = 0; j < res['types'].length; j++) {
+                pokestring += "<li>" + res['types'][j]['name'] + "</li>";
+              }
+              pokestring += "</ul>";
+
+
+              pokestring += "<h5>Height: </h5>";
+              pokestring += res['height'];
+              pokestring += "<h5>Weight: </h5>";
+              pokestring += res['weight'];
+
+
+
+              $('#dex').html(pokestring);
+
+
+        });
+      });
+
+    </script>
+    <style>
+      h1 {
+        text-align: center;
+      }
+      #dex {
+        height: 500px;
+        width: 25%;
+        border: 10px solid red;
+        display: inline-block;
+        vertical-align: top;
+        text-align: center;
+        padding: 10px;
+      }
+      li {
+       list-style: none;
+       margin: 5px;
+       margin-left: -30px;
+      }
+      ul {
+        text-align: center;
+      }
+      h4 {
+        font-size: 30px;
+      }
+      h5 {
+        font-size: 16px;
+        margin-bottom: 15px;
+      }
+      #img {
+        border-top: 3px solid red;
+        border-bottom: 3px solid red;
+        padding: 0 -30px;
+      }
+      #pokemon {
+        display: inline-block;
+        width: 70%;
+
+      }
+    </style>
+  </head>
+  <body>
+    <div id="wrapper">
+      <h1>Original Pokémon</h1>
+      <div id="pokemon"></div>
+      <div id="dex">
+
+
+      </div>
+
+    </div>
+
+  </body>
+</html>
